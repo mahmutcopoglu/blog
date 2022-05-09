@@ -23,7 +23,7 @@ public class PostDto {
     private String slug;
     private Boolean published;
     private String content;
-    private CategoryDto category;
+    private Set<CategoryDto> category = new HashSet<>();
     private UserDto user;
     private Set<PostCommentDto> postComments = new HashSet<>();
     private Set<TagDto> tags = new HashSet<>();

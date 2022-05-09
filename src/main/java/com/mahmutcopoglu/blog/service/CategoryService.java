@@ -9,4 +9,6 @@ public interface CategoryService {
     CategoryDto getById(Long id);
     Boolean delete(Long id);
 
+    CategoryDto create(CategoryDto categoryDto);
+
 }

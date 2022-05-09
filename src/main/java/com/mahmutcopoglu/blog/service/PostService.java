@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface PostService {
 
-    PostDto save(PostDto post, Long userId, Long categoryId);
-    PostDto subPostSave(PostDto post, Long userId, Long categoryId, Long id);
+    PostDto save(PostDto post);
+    PostDto subPostSave(PostDto post, Long postId);
     PostDto update(Long id, PostDto post);
     PostDto getById(Long id);
     Boolean delete(Long id);

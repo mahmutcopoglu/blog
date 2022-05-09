@@ -1,6 +1,7 @@
 package com.mahmutcopoglu.blog.api;
 
 import com.mahmutcopoglu.blog.dto.CategoryDto;
+import com.mahmutcopoglu.blog.dto.TagDto;
 import com.mahmutcopoglu.blog.service.impl.CategoryServiceImpl;
 import com.mahmutcopoglu.blog.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,6 @@ public class CategoryController {
         return ResponseEntity.ok(categoryDto);
     }
 
-    @PostMapping
-    public ResponseEntity<CategoryDto> createPostComment(@RequestBody CategoryDto category){
-        return ResponseEntity.ok(categoryServiceImpl.save(category));
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDto> updatePostComment(@PathVariable("id") Long id,@RequestBody CategoryDto category){
         return ResponseEntity.ok(categoryServiceImpl.update(id,category));
@@ -33,5 +29,10 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deletePostComment(@PathVariable(value = "id", required = true) Long id) {
         return ResponseEntity.ok(categoryServiceImpl.delete(id));
+    }
+
+    @PostMapping("create")
+    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto){
+        return ResponseEntity.ok(categoryServiceImpl.create(categoryDto));
     }
 }

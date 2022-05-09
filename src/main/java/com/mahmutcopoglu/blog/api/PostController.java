@@ -25,21 +25,16 @@ public class PostController {
         return ResponseEntity.ok(postDto);
     }
 
-    @PostMapping("/user/{userId}/category/{categoryId}/posts")
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto post,
-                                              @PathVariable Long userId,
-                                              @PathVariable Long categoryId){
-        return ResponseEntity.ok(postServiceImpl.save(post, userId, categoryId));
+    @PostMapping("create")
+    public ResponseEntity<PostDto> createPost(@RequestBody PostDto post){
+        return ResponseEntity.ok(postServiceImpl.save(post));
     }
 
-    @PostMapping("/user/{userId}/category/{categoryId}/posts/{postId}")
+    @PostMapping("/post/{postId}")
     public ResponseEntity<PostDto> subPost(@RequestBody PostDto post,
-                                              @PathVariable Long userId,
-                                              @PathVariable Long categoryId,
                                               @PathVariable Long postId){
-        return ResponseEntity.ok(postServiceImpl.subPostSave(post, userId, categoryId,postId));
+        return ResponseEntity.ok(postServiceImpl.subPostSave(post,postId));
     }
-
 
     @GetMapping("/user/{userId}/posts")
     public ResponseEntity<List<PostDto>> getPostsByUser(@PathVariable Long userId){

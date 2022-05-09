@@ -7,7 +7,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="categories")
@@ -33,7 +35,7 @@ public class Category extends BaseEntity{
     @Column(name="content",length = 10000)
     private String content;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Post> posts = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "category")
+    private Set<Post> posts = new HashSet<>();
 
 }

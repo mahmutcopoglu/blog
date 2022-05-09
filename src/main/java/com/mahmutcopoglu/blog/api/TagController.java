@@ -20,11 +20,10 @@ public class TagController {
         TagDto tagDto = tagServiceImpl.getById(id);
         return ResponseEntity.ok(tagDto);
     }
-
-    @PostMapping("/post/{postId}/tags")
-    public ResponseEntity<TagDto> createTag(@RequestBody TagDto tag,
-                                            @PathVariable Long postId){
-        return ResponseEntity.ok(tagServiceImpl.save(tag,postId));
+    
+    @PostMapping("create")
+    public ResponseEntity<TagDto> create(@RequestBody TagDto tag){
+        return ResponseEntity.ok(tagServiceImpl.create(tag));
     }
 
     @PutMapping("/{id}")

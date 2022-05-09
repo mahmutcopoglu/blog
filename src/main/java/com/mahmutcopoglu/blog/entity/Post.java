@@ -49,14 +49,21 @@ public class Post extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name="category_id")
-    private Category category;
-
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private Set<PostComment> postComments = new HashSet<>();
 
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "post_tags",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "post_category",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> category = new HashSet<>();
 
 }

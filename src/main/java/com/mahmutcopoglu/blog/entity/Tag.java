@@ -32,7 +32,7 @@ public class Tag extends BaseEntity{
     @Column(name="content",length = 10000)
     private String content;
 
-    @ManyToOne
-    private Post post;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tags")
+    private Set<Post> posts = new HashSet<>();
 
 }

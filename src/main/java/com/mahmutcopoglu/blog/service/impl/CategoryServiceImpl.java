@@ -1,7 +1,9 @@
 package com.mahmutcopoglu.blog.service.impl;
 
 import com.mahmutcopoglu.blog.dto.CategoryDto;
+import com.mahmutcopoglu.blog.dto.TagDto;
 import com.mahmutcopoglu.blog.entity.Category;
+import com.mahmutcopoglu.blog.entity.Tag;
 import com.mahmutcopoglu.blog.exceptions.ResourceNotFoundException;
 import com.mahmutcopoglu.blog.repository.CategoryRepository;
 import com.mahmutcopoglu.blog.service.CategoryService;
@@ -43,5 +45,12 @@ public class CategoryServiceImpl implements CategoryService {
     public Boolean delete(Long id) {
         categoryRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public CategoryDto create(CategoryDto categoryDto) {
+        Category category = modelMapper.map(categoryDto, Category.class);
+        Category categoryCreate = categoryRepository.save(category);
+        return modelMapper.map(categoryCreate, CategoryDto.class);
     }
 }

@@ -22,14 +22,6 @@ public class TagServiceImpl implements TagService {
         this.postRepository = postRepository;
         this.modelMapper = modelMapper;
     }
-    @Override
-    public TagDto save(TagDto tag, Long postId) {
-        Post post =this.postRepository.findById(postId).orElseThrow(()->new ResourceNotFoundException("Post","PostId",postId));
-        Tag tagDb = modelMapper.map(tag, Tag.class);
-        tagDb.setPost(post);
-        tagDb = tagRepository.save(tagDb);
-        return modelMapper.map(tagDb, TagDto.class);
-    }
 
     @Override
     public TagDto update(Long id, TagDto tag) {
@@ -50,6 +42,13 @@ public class TagServiceImpl implements TagService {
     public Boolean delete(Long id) {
         tagRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public TagDto create(TagDto tagDto) {
+        Tag tag = modelMapper.map(tagDto, Tag.class);
+        Tag tagCreate = tagRepository.save(tag);
+        return modelMapper.map(tagCreate, TagDto.class);
     }
 
 }
