@@ -8,6 +8,8 @@ import com.mahmutcopoglu.blog.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(ApiPaths.PostCommentCtrl.CTRL)
 public class PostCommentController {
@@ -35,8 +37,6 @@ public class PostCommentController {
         return ResponseEntity.ok(postCommentServiceImpl.subCommentSave(postComment,postId,commentId));
     }
 
-
-
     @PutMapping("/{id}")
     public ResponseEntity<PostCommentDto> updatePostComment(@PathVariable("id") Long id,@RequestBody PostCommentDto postComment){
         return ResponseEntity.ok(postCommentServiceImpl.update(id,postComment));
@@ -45,5 +45,15 @@ public class PostCommentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deletePostComment(@PathVariable(value = "id", required = true) Long id) {
         return ResponseEntity.ok(postCommentServiceImpl.delete(id));
+    }
+
+    @GetMapping("/allPostComments")
+    public ResponseEntity<List<PostCommentDto>> getAllPostComment(){
+        return ResponseEntity.ok(this.postCommentServiceImpl.getAllPostComments());
+    }
+
+    @GetMapping("/user/{userId}/postComments")
+    public ResponseEntity<List<PostCommentDto>> getPostCommentsByUser(@PathVariable Long userId){
+        return ResponseEntity.ok(this.postCommentServiceImpl.getPostCommentsByUser(userId));
     }
 }

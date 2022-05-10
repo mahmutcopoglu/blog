@@ -17,6 +17,7 @@ public class PostCommentDto {
     private String title;
     private Boolean published;
     private String content;
+    private UserDto user;
     @JsonIgnoreProperties("children")
     private PostCommentDto parent;
     @JsonIgnoreProperties("parent")

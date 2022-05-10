@@ -15,7 +15,7 @@ import java.util.Set;
 public class PostComment extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="title", length = 100)
@@ -32,6 +32,10 @@ public class PostComment extends BaseEntity{
 
     @ManyToOne
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToOne
     @JoinColumn(name="parent_id")

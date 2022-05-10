@@ -9,20 +9,26 @@ import com.mahmutcopoglu.blog.entity.User;
 import com.mahmutcopoglu.blog.exceptions.ResourceNotFoundException;
 import com.mahmutcopoglu.blog.repository.PostCommentRepository;
 import com.mahmutcopoglu.blog.repository.PostRepository;
+import com.mahmutcopoglu.blog.repository.UserRepository;
 import com.mahmutcopoglu.blog.service.PostCommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostCommentServiceImpl implements PostCommentService {
 
     private final PostCommentRepository postCommentRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public PostCommentServiceImpl(PostCommentRepository postCommentRepository, PostRepository postRepository, ModelMapper modelMapper){
+    public PostCommentServiceImpl(PostCommentRepository postCommentRepository, PostRepository postRepository,UserRepository userRepository, ModelMapper modelMapper){
         this.postCommentRepository = postCommentRepository;
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
     @Override
@@ -64,5 +70,20 @@ public class PostCommentServiceImpl implements PostCommentService {
     public Boolean delete(Long id) {
         postCommentRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<PostCommentDto> getAllPostComments() {
+        List<PostComment> allPostComments = this.postCommentRepository.findAll();
+        List<PostCommentDto> postCommentDtos = allPostComments.stream().map((postComment) -> this.modelMapper.map(postComment, PostCommentDto.class)).collect(Collectors.toList());
+        return postCommentDtos;
+    }
+
+    @Override
+    public List<PostCommentDto> getPostCommentsByUser(Long userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User","UserId",userId));
+        List<PostComment> postComments = this.postCommentRepository.findByUser(user);
+        List<PostCommentDto> postCommentDtos = postComments.stream().map((postComment) -> this.modelMapper.map(postComment, PostCommentDto.class)).collect(Collectors.toList());
+        return postCommentDtos;
     }
 }

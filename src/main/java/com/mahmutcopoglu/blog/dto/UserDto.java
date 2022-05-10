@@ -4,6 +4,9 @@ package com.mahmutcopoglu.blog.dto;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
