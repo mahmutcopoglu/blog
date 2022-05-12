@@ -21,13 +21,13 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "created_at")
     private Date createdAt;
 
-    @Column(name = "created_by",length = 100)
+    @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column(name = "updated_by",length = 100)
+    @Column(name = "updated_by")
     private Date updatedBy;
 
     @Column(name = "status")

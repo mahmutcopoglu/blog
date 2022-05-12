@@ -22,4 +22,8 @@ public final class ApiPaths {
     public static final class TagCtrl{
         public static final String CTRL = BASE_PATH + "/tags";
     }
+
+    public static final class RoleCtrl{
+        public static final String CTRL = BASE_PATH + "/roles";
+    }
 }

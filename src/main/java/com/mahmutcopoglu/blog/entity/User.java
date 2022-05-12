@@ -3,9 +3,7 @@ package com.mahmutcopoglu.blog.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name="users")
@@ -19,25 +17,32 @@ public class User extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="first_name", length = 40)
+    @Column(name="first_name")
     private String firstName;
 
-    @Column(name="last_name", length = 40)
+    @Column(name="last_name")
     private String lastName;
 
-    @Column(name="mobile", length = 20)
+    @Column(name="mobile")
     private String mobile;
 
-    @Column(name="email", length = 40)
+    @Column(name="email")
     private String email;
 
-    @Column(name="user_name", length = 20, unique = true)
+    @Column(name="user_name", unique = true)
     private String username;
 
-    @Column(name="password", length = 30)
+    @Column(name="password")
     private String password;
 
     @Column(name="last_login")
     private Date lastLogin;
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles=new HashSet<>();
 
 }

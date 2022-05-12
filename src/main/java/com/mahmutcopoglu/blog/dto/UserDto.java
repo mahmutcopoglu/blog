@@ -7,9 +7,7 @@ import lombok.Data;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 public class UserDto {
@@ -22,4 +20,5 @@ public class UserDto {
     private String username;
     private String password;
     private Date lastLogin;
+    private Set<RoleDto> roles = new HashSet<>();
 }

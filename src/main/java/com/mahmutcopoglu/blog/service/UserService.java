@@ -10,6 +10,7 @@ public interface UserService {
     UserDto save(UserDto user);
     UserDto update(Long id, UserDto user);
     UserDto getById(Long id);
+    UserDto addRoleToUser(UserDto user);
     Boolean delete(Long id);
     List<UserDto> getAllUsers();
 }
