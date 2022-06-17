@@ -11,6 +11,7 @@ import com.mahmutcopoglu.blog.repository.RoleRepository;
 import com.mahmutcopoglu.blog.repository.UserRepository;
 import com.mahmutcopoglu.blog.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -86,4 +87,6 @@ public class UserServiceImpl implements UserService {
         List<UserDto> userDtos = users.stream().map((user) -> this.modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
         return userDtos;
     }
+
+
 }

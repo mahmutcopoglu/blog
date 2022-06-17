@@ -2,32 +2,36 @@ package com.mahmutcopoglu.blog.service.impl;
 
 import com.mahmutcopoglu.blog.entity.User;
 import com.mahmutcopoglu.blog.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collection;
 
-@Service
+
+@Service @RequiredArgsConstructor @Transactional @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
-
+    private final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if(user==null){
-            throw new UsernameNotFoundException("User not found database");
+        if(user == null){
+            log.error("User nout found in the database");
+            throw new UsernameNotFoundException("User not found in the database");
+        }else {
+            log.info("User found in the database: {}",username);
         }
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        user.getRoles().forEach(role -> {
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRoles().forEach(role->{
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
     }
 }

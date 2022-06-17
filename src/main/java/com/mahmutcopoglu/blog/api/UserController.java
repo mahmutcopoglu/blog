@@ -1,17 +1,17 @@
 package com.mahmutcopoglu.blog.api;
 
-import com.mahmutcopoglu.blog.dto.PostDto;
+
 import com.mahmutcopoglu.blog.dto.UserDto;
-import com.mahmutcopoglu.blog.entity.User;
 import com.mahmutcopoglu.blog.service.impl.UserServiceImpl;
 import com.mahmutcopoglu.blog.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
-import java.util.List;
 
 @RestController
-@RequestMapping(ApiPaths.UserCtrl.CTRL)
+
 public class UserController {
 
     private final UserServiceImpl userServiceImpl;
@@ -49,4 +49,6 @@ public class UserController {
     public ResponseEntity<Boolean> deleteUser(@PathVariable(value = "id", required = true) Long id) {
         return ResponseEntity.ok(userServiceImpl.delete(id));
     }
+
+
 }
