@@ -1,7 +1,9 @@
 package com.mahmutcopoglu.blog.api;
 
 import com.mahmutcopoglu.blog.dto.CategoryDto;
+import com.mahmutcopoglu.blog.dto.ServiceResponseData;
 import com.mahmutcopoglu.blog.dto.TagDto;
+import com.mahmutcopoglu.blog.enums.ProcessStatus;
 import com.mahmutcopoglu.blog.service.impl.CategoryServiceImpl;
 import com.mahmutcopoglu.blog.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
@@ -16,23 +18,37 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> getById(@PathVariable("id") Long id) {
+    public ServiceResponseData getById(@PathVariable("id") Long id) {
         CategoryDto categoryDto = categoryServiceImpl.getById(id);
-        return ResponseEntity.ok(categoryDto);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        response.setData(categoryDto);
+        return response;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updatePostComment(@PathVariable("id") Long id,@RequestBody CategoryDto category){
-        return ResponseEntity.ok(categoryServiceImpl.update(id,category));
+    public ServiceResponseData updatePostComment(@PathVariable("id") Long id,@RequestBody CategoryDto category){
+        CategoryDto categoryModel = categoryServiceImpl.update(id,category);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        response.setData(categoryModel);
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deletePostComment(@PathVariable(value = "id", required = true) Long id) {
-        return ResponseEntity.ok(categoryServiceImpl.delete(id));
+    public ServiceResponseData deletePostComment(@PathVariable(value = "id", required = true) Long id) {
+        categoryServiceImpl.delete(id);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        return response;
     }
 
-    @PostMapping("create")
-    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto){
-        return ResponseEntity.ok(categoryServiceImpl.create(categoryDto));
+    @PostMapping("/create")
+    public ServiceResponseData create(@RequestBody CategoryDto categoryDto){
+        CategoryDto categoryModel = categoryServiceImpl.create(categoryDto);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        response.setData(categoryModel);
+        return response;
     }
 }

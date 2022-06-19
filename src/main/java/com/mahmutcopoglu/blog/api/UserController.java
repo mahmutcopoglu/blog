@@ -1,7 +1,10 @@
 package com.mahmutcopoglu.blog.api;
 
 
+import com.mahmutcopoglu.blog.dto.PostCommentDto;
+import com.mahmutcopoglu.blog.dto.ServiceResponseData;
 import com.mahmutcopoglu.blog.dto.UserDto;
+import com.mahmutcopoglu.blog.enums.ProcessStatus;
 import com.mahmutcopoglu.blog.service.impl.UserServiceImpl;
 import com.mahmutcopoglu.blog.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +34,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
-        return ResponseEntity.ok(userServiceImpl.save(user));
+    public ServiceResponseData createUser(@RequestBody UserDto user){
+        UserDto userModel = userServiceImpl.save(user);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        response.setData(userModel);
+        return response;
     }
 
     @PostMapping("/addRoleUser")

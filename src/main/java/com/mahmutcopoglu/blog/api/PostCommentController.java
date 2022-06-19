@@ -1,8 +1,11 @@
 package com.mahmutcopoglu.blog.api;
 
 
+import com.mahmutcopoglu.blog.dto.CategoryDto;
 import com.mahmutcopoglu.blog.dto.PostCommentDto;
 import com.mahmutcopoglu.blog.dto.PostDto;
+import com.mahmutcopoglu.blog.dto.ServiceResponseData;
+import com.mahmutcopoglu.blog.enums.ProcessStatus;
 import com.mahmutcopoglu.blog.service.impl.PostCommentServiceImpl;
 import com.mahmutcopoglu.blog.util.ApiPaths;
 import org.springframework.http.ResponseEntity;
@@ -19,32 +22,50 @@ public class PostCommentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostCommentDto> getById(@PathVariable("id") Long id) {
+    public ServiceResponseData getById(@PathVariable("id") Long id) {
         PostCommentDto postCommentDto = postCommentServiceImpl.getById(id);
-        return ResponseEntity.ok(postCommentDto);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        response.setData(postCommentDto);
+        return response;
     }
 
     @PostMapping("/post/{postId}/comments")
-    public ResponseEntity<PostCommentDto> createPostComment(@RequestBody PostCommentDto postComment,
+    public ServiceResponseData createPostComment(@RequestBody PostCommentDto postComment,
                                                             @PathVariable Long postId){
-        return ResponseEntity.ok(postCommentServiceImpl.save(postComment,postId));
+        PostCommentDto postCommentDto = postCommentServiceImpl.save(postComment,postId);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        response.setData(postCommentDto);
+        return response;
     }
 
     @PostMapping("/post/{postId}/comments/{commentId}")
-    public ResponseEntity<PostCommentDto> subComment(@RequestBody PostCommentDto postComment,
+    public ServiceResponseData subComment(@RequestBody PostCommentDto postComment,
                                               @PathVariable Long postId,
                                               @PathVariable Long commentId){
-        return ResponseEntity.ok(postCommentServiceImpl.subCommentSave(postComment,postId,commentId));
+        PostCommentDto postCommentDto = postCommentServiceImpl.subCommentSave(postComment,postId,commentId);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        response.setData(postCommentDto);
+        return response;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostCommentDto> updatePostComment(@PathVariable("id") Long id,@RequestBody PostCommentDto postComment){
-        return ResponseEntity.ok(postCommentServiceImpl.update(id,postComment));
+    public ServiceResponseData updatePostComment(@PathVariable("id") Long id,@RequestBody PostCommentDto postComment){
+        PostCommentDto postCommentDto = postCommentServiceImpl.update(id,postComment);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        response.setData(postCommentDto);
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deletePostComment(@PathVariable(value = "id", required = true) Long id) {
-        return ResponseEntity.ok(postCommentServiceImpl.delete(id));
+    public ServiceResponseData deletePostComment(@PathVariable(value = "id", required = true) Long id) {
+        postCommentServiceImpl.delete(id);
+        var response = new ServiceResponseData();
+        response.setStatus(ProcessStatus.SUCCESS);
+        return response;
     }
 
     @GetMapping("/allPostComments")

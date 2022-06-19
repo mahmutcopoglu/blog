@@ -2,9 +2,12 @@ package com.mahmutcopoglu.blog.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mahmutcopoglu.blog.dto.AuthToken;
 import com.mahmutcopoglu.blog.dto.LoginRequest;
+import com.mahmutcopoglu.blog.dto.ServiceResponseData;
+import com.mahmutcopoglu.blog.enums.ProcessStatus;
 import com.mahmutcopoglu.blog.service.impl.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -88,6 +91,18 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), new AuthToken(access_token,refresh_token));
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.setContentType(APPLICATION_JSON_VALUE);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        var serviceResponseData = new ServiceResponseData();
+        serviceResponseData.setStatus(ProcessStatus.ERROR);
+        serviceResponseData.setErrorMessage("Incorrect Login");
+        var mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.writeValue(response.getOutputStream(), serviceResponseData);
     }
 
     private LoginRequest getLoginRequest(HttpServletRequest request)
